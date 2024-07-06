@@ -1,5 +1,6 @@
 const nodemailer = require("nodemailer");
 const configObject = require("../../config/env.config");
+const winston = require("winston");
 
 class EmailManager {
     constructor() {
@@ -16,7 +17,7 @@ class EmailManager {
     async enviarCorreoCompra(email, first_name, ticket) {
         try {
             const Opt = {
-                from: "Skate & Destroy<gbrlcstrrmrz@gmail.com>",
+                from: "E-commerce<fmalbran93@gmail.com>",
                 to: email,
                 subject: "compra exitosa",
                 html: `
@@ -26,9 +27,10 @@ class EmailManager {
             };
             await this.transporter.sendMail(Opt);
         } catch (error) {
-            console.error("Error al enviar Email:");
+            winston.error("Error al enviar Email:");
         }
     }
 }
+
 
 module.exports = EmailManager;

@@ -1,4 +1,5 @@
 const jwt = require("jsonwebtoken");
+const winston = require("winston");
 
 const User = require("../models/user.model.js");
 const Cart = require("../models/cart.model.js");
@@ -35,7 +36,7 @@ class UserController {
             });
             res.redirect("/api/users/profile");
         } catch (error) {
-            console.error(error);
+            winston.error(error);
             res.status(500).send("Error al registrar usuario");
         }
     }
@@ -44,7 +45,6 @@ class UserController {
         const { email, password } = req.body;
         try {
             const userFound = await User.findOne({ email });
-
             if (!userFound) {
                 return res.status(401).send("Credenciales incorrectas");
             }
@@ -61,13 +61,13 @@ class UserController {
             });
             res.redirect("/home");
         } catch (error) {
-            console.error(error);
+            winston.error(error);
             res.status(500).send("Error al iniciar sesion");
         }
     }
 
     async profile(req, res) {
-        const dto = new DTO(req.user.first_name, req.user.last_name, req.user.role);
+        const dto = new DTO(req.user.first_name, req.user.last_name, req.user.email, req.user.role);
         const isAdmin = req.user.role === 'admin';
         res.render("profile", { user: dto, isAdmin });
     }

@@ -1,6 +1,6 @@
 const Ticket = require("../models/ticket.model.js");
 const User = require("../models/user.model.js");
-
+const winston = require("winston");
 const CartRepository = require("../repositories/cart.repository.js");
 const { ticketNumberRandom, totalPurchase } = require("../utils/cartutils.js");
 
@@ -113,7 +113,7 @@ class CartController {
             await cart.save();
             res.redirect(`/${cartId}/purchase`)
         } catch (error) {
-            console.error('Error al realizar compra, intenta nuevamente');
+            winston.error('Error al realizar compra, intenta nuevamente');
             res.status(500).json({ error: 'Error al comprar productos' });
         }
     }

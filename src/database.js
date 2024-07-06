@@ -1,5 +1,6 @@
 const moongose = require("mongoose");
 const configObject = require("./config/env.config");
+const winston = require("winston");
 
 class DataBase {
   static #instance;
@@ -10,12 +11,11 @@ class DataBase {
     try {
       if (this.#instance) return this.#instance;
       this.#instance = new DataBase();
-      console.log("mongoDB connected succesfully");
+      winston.info("mongoDB connected succesfully");
     } catch (error) {
-      console.error(error);
+      winston.error(error);
     }
   }
 }
 
 module.exports = DataBase.getInstance();
-    

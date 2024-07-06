@@ -1,15 +1,16 @@
 const Product = require("../models/product.model.js");
+const winston = require("winston");
 
 class ProductRepository {
     async addProduct({ title, description, price, img, code, stock, category, thumbnail }) {
         try {
             if (!title || !description || !price || !code || !stock || !category) {
-                console.log("Todos los campos son obligatorios");
+                winston.warning("Todos los campos son obligatorios");
                 return;
             }
             const ProductExist = await Product.findOne({ code: code });
             if (ProductExist) {
-                console.log("El codigo ingresado pertenece a otro producto");
+                winston.warning("El codigo ingresado pertenece a otro producto");
                 return;
             }
             const newProduct = new Product({
@@ -69,10 +70,10 @@ class ProductRepository {
         try {
             const update = await Product.findByIdAndUpdate(id, productoActualizado);
             if (!update) {
-                console.log("Producto no encontrado");
+                winston.warning("Producto no encontrado");
                 return null;
             }
-            console.log("Producto actualizado");
+            winston.info("Producto actualizado");
             return update;
         } catch (error) {
             throw new Error("Error al actualizar el producto");
@@ -83,10 +84,10 @@ class ProductRepository {
         try {
             const deleteProd = await Product.findByIdAndDelete(id);
             if (!deleteProd) {
-                console.log("Producto no encontrado");
+                winston.warning("Producto no encontrado");
                 return null;
             }
-            console.log("Producto eliminado");
+            winston.info("Producto eliminado");
             return deleteProd;
         } catch (error) {
             throw new Error("Error al eliminar el producto");

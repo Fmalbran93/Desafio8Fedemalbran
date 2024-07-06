@@ -38,7 +38,6 @@ class ProductController {
         const id = req.params.pid;
         try {
             let prod = await productR.deleteProduct(id);
-
             res.json(prod);
         } catch (error) {
             res.status(500).send("Error al eliminar el producto");

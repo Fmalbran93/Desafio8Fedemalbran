@@ -1,4 +1,5 @@
 const socket = require("socket.io");
+const winston = require("winston");
 
 const ProductRepository = require("../repositories/product.repository.js");
 const MessageModel = require("../models/message.model.js");
@@ -12,7 +13,7 @@ class SocketManager {
     }
     async initSocketEvents() {
         this.io.on("connection", async (socket) => {
-            console.log("Usuario conectado");       
+            winston.info("Usuario conectado");       
             socket.emit("products", await product.getProducts() );
             socket.on("deleteProd", async (id) => {
                 await product.deleteProduct(id);

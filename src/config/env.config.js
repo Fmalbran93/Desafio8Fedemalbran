@@ -20,7 +20,7 @@ const configObject = {
     mailer_user: process.env.MAILER_USER,
     mailer_pass: process.env.MAILER_PASS
   },
-  production: {
+  winston: {
     node_env: process.env.NODE_ENV
   }
 };
